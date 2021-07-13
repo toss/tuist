@@ -3,22 +3,22 @@ import TuistCore
 import TuistGenerator
 import TuistGraph
 
-protocol WorkspaceMapperProviding {
+public protocol WorkspaceMapperProviding {
     func mapper(config: Config) -> WorkspaceMapping
 }
 
-final class WorkspaceMapperProvider: WorkspaceMapperProviding {
+public final class WorkspaceMapperProvider: WorkspaceMapperProviding {
     private let projectMapperProvider: ProjectMapperProviding
 
-    convenience init(contentHasher: ContentHashing) {
+    public convenience init(contentHasher: ContentHashing) {
         self.init(projectMapperProvider: ProjectMapperProvider(contentHasher: contentHasher))
     }
 
-    init(projectMapperProvider: ProjectMapperProviding = ProjectMapperProvider()) {
+    public init(projectMapperProvider: ProjectMapperProviding = ProjectMapperProvider()) {
         self.projectMapperProvider = projectMapperProvider
     }
 
-    func mapper(config: Config) -> WorkspaceMapping {
+    public func mapper(config: Config) -> WorkspaceMapping {
         SequentialWorkspaceMapper(
             mappers: mappers(
                 config: config

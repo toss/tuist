@@ -8,16 +8,16 @@ import TuistLab
 import TuistSigning
 
 /// It defines an interface for providing the mappers to be used for a specific configuration.
-protocol GraphMapperProviding {
+public protocol GraphMapperProviding {
     /// Returns a list of mappers to be used for a specific configuration.
     /// - Parameter config: Project's configuration.
     func mapper(config: Config) -> GraphMapping
 }
 
-final class GraphMapperProvider: GraphMapperProviding {
-    init() {}
+public final class GraphMapperProvider: GraphMapperProviding {
+    public init() {}
 
-    func mapper(config: Config) -> GraphMapping {
+    public func mapper(config: Config) -> GraphMapping {
         SequentialGraphMapper(mappers(config: config))
     }
 

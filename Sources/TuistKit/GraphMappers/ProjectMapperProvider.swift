@@ -7,23 +7,23 @@ import TuistSigning
 import TuistSupport
 
 /// It defines an interface for providing the project mappers to be used for a specific configuration.
-protocol ProjectMapperProviding {
+public protocol ProjectMapperProviding {
     /// Returns a list of mappers to be used for a specific configuration.
     /// - Parameter config: Project's configuration.
     func mapper(config: Config) -> ProjectMapping
 }
 
-final class ProjectMapperProvider: ProjectMapperProviding {
+public final class ProjectMapperProvider: ProjectMapperProviding {
     /// Content hasher.
     private let contentHasher: ContentHashing
 
     /// Initializes the project mapper provider.
     /// - Parameter contentHasher: Content hasher.
-    init(contentHasher: ContentHashing = ContentHasher()) {
+    public init(contentHasher: ContentHashing = ContentHasher()) {
         self.contentHasher = contentHasher
     }
 
-    func mapper(config: Config) -> ProjectMapping {
+    public func mapper(config: Config) -> ProjectMapping {
         var mappers: [ProjectMapping] = []
 
         // Auto-generation of schemes

@@ -8,7 +8,7 @@ import TuistPlugin
 import TuistSigning
 import TuistSupport
 
-protocol Generating {
+public protocol Generating {
     @discardableResult
     func load(path: AbsolutePath) throws -> Graph
     func loadProject(path: AbsolutePath) throws -> (Project, Graph, [SideEffectDescriptor]) // swiftlint:disable:this large_tuple
@@ -17,7 +17,7 @@ protocol Generating {
     func generateProjectWorkspace(path: AbsolutePath) throws -> (AbsolutePath, Graph)
 }
 
-class Generator: Generating {
+public class Generator: Generating {
     private let recursiveManifestLoader: RecursiveManifestLoading
     private let converter: ManifestModelConverting
     private let manifestLinter: ManifestLinting = ManifestLinter()
@@ -36,7 +36,7 @@ class Generator: Generating {
     private let pluginsService: PluginServicing
     private let configLoader: ConfigLoading
 
-    convenience init(contentHasher: ContentHashing) {
+    public convenience init(contentHasher: ContentHashing) {
         self.init(
             projectMapperProvider: ProjectMapperProvider(contentHasher: contentHasher),
             graphMapperProvider: GraphMapperProvider(),
@@ -45,7 +45,7 @@ class Generator: Generating {
         )
     }
 
-    init(
+    public init(
         projectMapperProvider: ProjectMapperProviding,
         graphMapperProvider: GraphMapperProviding,
         workspaceMapperProvider: WorkspaceMapperProviding,
@@ -69,12 +69,12 @@ class Generator: Generating {
         )
     }
 
-    func generate(path: AbsolutePath, projectOnly: Bool) throws -> AbsolutePath {
+    public func generate(path: AbsolutePath, projectOnly: Bool) throws -> AbsolutePath {
         let (generatedPath, _) = try generateWithGraph(path: path, projectOnly: projectOnly)
         return generatedPath
     }
 
-    func generateWithGraph(path: AbsolutePath, projectOnly: Bool) throws -> (AbsolutePath, Graph) {
+    public func generateWithGraph(path: AbsolutePath, projectOnly: Bool) throws -> (AbsolutePath, Graph) {
         let manifests = manifestLoader.manifests(at: path)
 
         if projectOnly {
@@ -88,7 +88,7 @@ class Generator: Generating {
         }
     }
 
-    func load(path: AbsolutePath) throws -> Graph {
+    public func load(path: AbsolutePath) throws -> Graph {
         let manifests = manifestLoader.manifests(at: path)
 
         if manifests.contains(.workspace) {
@@ -101,7 +101,7 @@ class Generator: Generating {
     }
 
     // swiftlint:disable:next large_tuple
-    func loadProject(path: AbsolutePath) throws -> (Project, Graph, [SideEffectDescriptor]) {
+    public func loadProject(path: AbsolutePath) throws -> (Project, Graph, [SideEffectDescriptor]) {
         // Load config
         let config = try configLoader.loadConfig(path: path)
 
@@ -187,7 +187,7 @@ class Generator: Generating {
         return (workspaceDescriptor.xcworkspacePath, graph)
     }
 
-    internal func generateProjectWorkspace(path: AbsolutePath) throws -> (AbsolutePath, Graph) {
+    public func generateProjectWorkspace(path: AbsolutePath) throws -> (AbsolutePath, Graph) {
         // Load
         let (_, graph, sideEffects) = try loadProjectWorkspace(path: path)
         let graphTraverser = GraphTraverser(graph: graph)
